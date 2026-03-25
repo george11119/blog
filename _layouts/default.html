@@ -1,12 +1,22 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <title>{{ page.title }} - {{ site.title }}</title>
-    <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
-  </head>
+<!doctype html>
+<html lang="en">
+  {% include head.html %}
   <body>
-    {{ content }}
+    <div class="container">
+      {% include nav.html %}
+      <hr class="stylish" />
+      {{ content }}
+    </div>
+    <footer>
+      <hr class="stylish" />
+      <div>
+        Made with <a href="https://github.com/jekyll/jekyll">Jekyll</a> and the
+        <a href="https://github.com/abhn/Elementary">Elementary</a> theme
+        <div style="height: 24px"></div>
+      </div>
+    </footer>
+    {% if site.javascript_enabled %}
+    <script src="/assets/main.js"></script>
+    {% endif %}
   </body>
 </html>

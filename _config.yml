@@ -1,3 +1,29 @@
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-baseurl: "" # the subpath of your site, e.g. /blog
-title: "" # the name of your site, e.g. ACME Corp.
+title: George's blog
+name: "CTF writeups"
+description: "List of CTF challenges I have written up"
+baseurl: ""
+markdown: kramdown
+highlighter: rouge
+javascript_enabled: true
+
+theme: elementary
+
+collections:
+  posts:
+    title: CTF Writeups
+    default_open: true
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      title: CTF Writeups
+      permalink: /post/:title
+
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - ./elementary

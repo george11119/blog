@@ -1,0 +1,19 @@
+/* Error: expected "{".
+ *   ╷
+ * 4 │ @import 'main';
+ *   │               ^
+ *   ╵
+ *   /home/laptop3/repos/blog_repos/blog3/elementary/assets/main.scss 4:15  @import
+ *   /home/laptop3/repos/blog_repos/blog3/elementary/assets/main.scss 1:9   root stylesheet */
+
+body::before {
+  position: static;
+  display: block;
+  padding: 1em;
+  margin: 0 0 1em;
+  border-width: 0 0 2px;
+  border-bottom-style: solid;
+  font-family: monospace, monospace;
+  white-space: pre;
+  content: "Error: expected \"{\".\a   \2577\a 4 \2502  @import 'main';\a   \2502                ^\a   \2575\a   /home/laptop3/repos/blog_repos/blog3/elementary/assets/main.scss 4:15  @import\a   /home/laptop3/repos/blog_repos/blog3/elementary/assets/main.scss 1:9   root stylesheet";
+}
