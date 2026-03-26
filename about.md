@@ -14,4 +14,5 @@ On this site I intend to write about CTF challenges I have solved and anything e
 
 ## Links and socials
 
+Discord username: george11119
 [Github](https://github.com/george11119)
