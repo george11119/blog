@@ -730,7 +730,7 @@ function getNameSpace(vnode3) {
 
 and found out I could also abuse prototype pollution to get this function to return a value of my choosing, which would result in `ns === undefined` to be `false`, resulting in `hasPropertyKey` to be `false` also, and allowing me to set attributes using `setAttribute` once again.
 
-first thing I tried doing was setting `Object.prototype.tag` to make the `getNamespace` function to return a value. This did not work and led me down a rabbit hole of doing more random things that did not work (would rather not make this writeup 1000 words longer so I will not explain what I tried).
+first thing I tried doing was setting `Object.prototype.tag` to make the `getNamespace` function to return a value. This did not work and led me down a rabbit hole of doing more random things that did not work (I would rather not make this writeup 1000 words longer so I won't explain what I tried).
 
 I then tried setting `Object.prototype.xmlns` to random values. Setting the `Object.prototype.xmlns` to random values did not work as for some reason the browser stopped autocorrecting the capitalized `ONFOCUS` to lowercase, resulting in the event handler not firing. Spent an hour setting this value to random things until at some point I started looking for bugs in a completely unrelated part of the Mithril.js library and noticed that in a random function, a variable called `namespace` was being compared with the string `"http://www.w3.org/1999/xhtml"`.
 
@@ -769,7 +769,7 @@ and I popped an alert:
 
 ![alert popped on test page again](./assets/intigriti-0422-alert-popped-on-test-page.jpg)
 
-At this point I pretty much solved the challenge. I adapted the payload to work on the window makeer revenge challenge by abusing the prototype pollution I found in the first version of the challenge and setting the needed values in the URL:
+At this point I pretty much solved the challenge. I adapted the payload to work on the window maker revenge challenge by abusing the prototype pollution I found in the first version of the challenge and setting the needed values in the URL:
 
 ```
 ?settings[root][ownerDocument][defaultView][JSON][constructor][prototype][xmlns]=http://www.w3.org/1999/xhtml
@@ -785,9 +785,9 @@ and I was able to pop an alert there too.
 
 We win theseeeeeeeeee
 
-After solving the challenge, I also found out why I had to set `xmlns` to be `"http://www.w3.org/1999/xhtml"`. Turns out, the browser parses HTML differently based on the value of `xmlns` attribute on the HTML tag. Setting it to anything other than `"http://www.w3.org/1999/xhtml"` caused the browser to stop recognizing the tags with the attributes I polluted to be recognized as HTML, which resulted in the browser to stop lowercasing my capitalized `ONFOCUS` attribute. 
+After solving the challenge, I also found out why I had to set `xmlns` to be `"http://www.w3.org/1999/xhtml"`. Turns out, the browser parses HTML differently based on the value of `xmlns` attribute on the HTML tag. Setting it to anything other than `"http://www.w3.org/1999/xhtml"` caused the browser to stop recognizing the tags with the attributes I polluted as HTML, which resulted in the browser to stop lowercasing my capitalized `ONFOCUS` attribute. 
 
-I found this out after finding [this piece](https://developer.mozilla.org/en-US/docs/Glossary/XHTML) of MDN documentation and reading the following line:
+I found this out after finding [this piece of MDN documentation](https://developer.mozilla.org/en-US/docs/Glossary/XHTML) and reading the following line:
 
 > In practice, very few "XHTML" documents are served over the web with a Content-Type: application/xhtml+xml header. Instead, even though the documents are written to conform to XML syntax rules, they are served with a Content-Type: text/html header — so browsers parse those documents using HTML parsers rather than XML parsers.
 
@@ -803,5 +803,5 @@ copy paste that URL into the browser and you too can solve the challenge!
 
 These 2 challenges took forever to solve, but in the end it was well worth it. After solving the challenges, I came out with a deeper understanding of prototype pollution and got more comfortable with reading source code and using the chrome dev tools debugger. Thank you very much Huli for creating these challenges :)
 
-Also omg creating writeups for these challenges takes sooo fking long. I now have more respect for all my favorite bloggers...
+Also omg creating writeups for these challenges takes sooo fking long. I think im gonna stop writing these challenges up as often...
 
