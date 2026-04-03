@@ -711,7 +711,7 @@ We win theseeeeeeeeee
 
 After solving the challenge, I also found out why I had to set `xmlns` to be `"http://www.w3.org/1999/xhtml"`. Turns out, the browser parses HTML differently based on the value of `xmlns` attribute on the HTML tag. Setting it to anything other than `"http://www.w3.org/1999/xhtml"` caused the browser to stop recognizing the tags with the attributes I polluted to be recognized as HTML, which resulted in the browser to stop lowercasing my capitalized `ONFOCUS` attribute. 
 
-I found this out after finding [this piece]([mdn doc](https://developer.mozilla.org/en-US/docs/Glossary/XHTML) of MDN documentation and reading the following line:
+I found this out after finding [this piece](https://developer.mozilla.org/en-US/docs/Glossary/XHTML) of MDN documentation and reading the following line:
 
 > In practice, very few "XHTML" documents are served over the web with a Content-Type: application/xhtml+xml header. Instead, even though the documents are written to conform to XML syntax rules, they are served with a Content-Type: text/html header — so browsers parse those documents using HTML parsers rather than XML parsers.
 

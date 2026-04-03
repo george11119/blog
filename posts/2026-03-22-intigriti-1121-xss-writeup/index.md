@@ -214,7 +214,7 @@ I personally have never touched CSTI in my life and had no idea how it worked, s
 - [Matanber's writeup on using CSTI to exploit XSS in a NFT site](https://matanber.com/blog/4-char-csti) (his explanation on CSTI was very concise and easy to read)
 - [A working Vue CSTI example online to play around with](https://github.com/azu/vue-client-side-template-injection-example)
 
-After staring at these resources and playing around with examples for a long time, I was able to understand how CSTI worked a bit better. I wrote a quick summary on how CSTI works [here](/posts/CSTI).
+After staring at these resources and playing around with examples for a long time, I was able to understand how CSTI worked a bit better. I wrote a quick summary on how CSTI works [here](../2026-03-22-CSTI/index).
 
 # Looking for CSTI in webpage
 

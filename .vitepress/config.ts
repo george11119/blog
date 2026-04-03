@@ -7,11 +7,11 @@ const pageSize = 10
 const isProd = process.env.NODE_ENV === 'production'
 
 export default defineConfig({
-  title: 'Vitepress blog',
+  title: "George's blog",
   base: '/',
   cacheDir: './node_modules/vitepress_cache',
   description: 'vitepress,blog,blog-theme',
-  ignoreDeadLinks: true,
+  ignoreDeadLinks: false,
   themeConfig: {
     posts: await getPosts(pageSize),
     website: 'https://github.com/george11119', //copyright link
@@ -23,14 +23,14 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Archives', link: '/pages/archives' },
-      { text: 'Categories', link: '/pages/category' },
+      // { text: 'Categories', link: '/pages/category' },
       // { text: 'Tags', link: '/pages/tags' },
       { text: 'About', link: '/pages/about' }
       // { text: 'Airene', link: 'http://airene.net' }  -- External link test
     ],
-    search: {
-      provider: 'local'
-    },
+    // search: {
+    //   provider: 'local'
+    // },
     //outline:[2,3],
     outline: {
       label: '文章摘要'
@@ -55,10 +55,12 @@ export default defineConfig({
       enabled: ['false']
     }
   }
-
+  // rewrites(id) {
+  //   return id.replace(/\d\d\d\d-\d\d-\d\d-(.*)\/index/, '$1')
+  // }
   /*
-      optimizeDeps: {
-          keepNames: true
-      }
-      */
+  optimizeDeps: {
+    keepNames: true
+  }
+  */
 })
