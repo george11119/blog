@@ -1,7 +1,7 @@
 <template>
   <div class="site-footer">
-    MIT Licensed | Copyright © {{ new Date(Date.now()).getFullYear() }}<br />
-    Powered by <a class="vitepress" target="_blank" href="//vitepress.vuejs.org/">VitePress - 1.6.4</a> Theme by
+    Copyright © {{ new Date(Date.now()).getFullYear() }} | Made with
+    <a class="vitepress" target="_blank" href="//vitepress.vuejs.org/">VitePress - 1.6.4</a> and
     <a class="vitepress" target="_blank" href="//github.com/airene/vitepress-blog-pure">Vitepress-blog</a>
   </div>
 </template>
@@ -24,6 +24,5 @@ const webTitle = site.value.title
 }
 .vitepress {
   color: var(--vp-c-text-1);
-  font-weight: 700;
 }
 </style>
