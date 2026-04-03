@@ -120,7 +120,7 @@ if (qs.config) {
 }
 ```
 
-the `m.parseQueryString` is the function that parses the query string into a object, which is then merged into the `appConfig` object.
+The `m.parseQueryString` is the function that parses the query string into a object, which is then merged into the `appConfig` object.
 
 I started off by setting one of the URL parameter keys to be:
 
@@ -130,54 +130,62 @@ I started off by setting one of the URL parameter keys to be:
 
 However, that did not work as the merge function would refuse to merge any keys in our object that equaled `"__proto__"`
 
-```javascript
+```javascript{2,5}
+function merge(target, source) {
   let protectedKeys = ['__proto__', "mode", "version", "location", "src", "data", "m"]
 
   for(let key in source) {
     if (protectedKeys.includes(key)) continue
-    ...
+
+    if (isPrimitive(target[key])) {
+      target[key] = sanitize(source[key])
+    } else {
+      merge(target[key], source[key])
+    }
+  }
+}
 ```
 
-the `m.parseQueryString` function also refused to create keys in our object that equaled `"__proto__"` (i commented out the lines that didnt matter in the function)
+the `m.parseQueryString` function also refused to create keys in our object that equaled `"__proto__"`
 
-```javascript
+```javascript{24-25}
 var parseQueryString = function(string) {
-//  if (string === "" || string == null) return {}
-//  if (string.charAt(0) === "?") string = string.slice(1)
-//  var entries = string.split("&"), counters = {}, data0 = {}
-//  for (var i = 0; i < entries.length; i++) {
-//    var entry = entries[i].split("=")
-//    var key5 = decodeURIComponent(entry[0])
-//    var value2 = entry.length === 2 ? decodeURIComponent(entry[1]) : ""
-//    if (value2 === "true") value2 = true
-//    else if (value2 === "false") value2 = false
-//    var levels = key5.split(/\]\[?|\[/)
-//    var cursor = data0
-//    if (key5.indexOf("[") > -1) levels.pop()
-//    for (var j0 = 0; j0 < levels.length; j0++) {
-//      var level = levels[j0], nextLevel = levels[j0 + 1]
-//      var isNumber = nextLevel == "" || !isNaN(parseInt(nextLevel, 10))
-//      if (level === "") {
-//        var key5 = levels.slice(0, j0).join()
-//        if (counters[key5] == null) {
-//          counters[key5] = Array.isArray(cursor) ? cursor.length : 0
-//        }
-//        level = counters[key5]++
-//      }
+  if (string === "" || string == null) return {}
+  if (string.charAt(0) === "?") string = string.slice(1)
+  var entries = string.split("&"), counters = {}, data0 = {}
+  for (var i = 0; i < entries.length; i++) {
+    var entry = entries[i].split("=")
+    var key5 = decodeURIComponent(entry[0])
+    var value2 = entry.length === 2 ? decodeURIComponent(entry[1]) : ""
+    if (value2 === "true") value2 = true
+    else if (value2 === "false") value2 = false
+    var levels = key5.split(/\]\[?|\[/)
+    var cursor = data0
+    if (key5.indexOf("[") > -1) levels.pop()
+    for (var j0 = 0; j0 < levels.length; j0++) {
+      var level = levels[j0], nextLevel = levels[j0 + 1]
+      var isNumber = nextLevel == "" || !isNaN(parseInt(nextLevel, 10))
+      if (level === "") {
+        var key5 = levels.slice(0, j0).join()
+        if (counters[key5] == null) {
+          counters[key5] = Array.isArray(cursor) ? cursor.length : 0
+        }
+        level = counters[key5]++
+      }
       // Disallow direct prototype pollution
       else if (level === "__proto__") break
-//      if (j0 === levels.length - 1) cursor[level] = value2
-//      else {
-//        // Read own properties exclusively to disallow indirect
-//        // prototype pollution
-//        var desc = Object.getOwnPropertyDescriptor(cursor, level)
-//        if (desc != null) desc = desc.value
-//        if (desc == null) cursor[level] = desc = isNumber ? [] : {}
-//        cursor = desc
-//      }
-//    }
-//  }
-//  return data0
+      if (j0 === levels.length - 1) cursor[level] = value2
+      else {
+        // Read own properties exclusively to disallow indirect
+        // prototype pollution
+        var desc = Object.getOwnPropertyDescriptor(cursor, level)
+        if (desc != null) desc = desc.value
+        if (desc == null) cursor[level] = desc = isNumber ? [] : {}
+        cursor = desc
+      }
+    }
+  }
+  return data0
 }
 ```
 
@@ -230,7 +238,7 @@ However, I realized that when I typed `location.host.split(":")` into the webpag
 ['challenge-0422.intigriti.io']
 ```
 
-which meant that temp[1] would always be undefined. Because I had access to pollute the `Array` prototype, I decided to input the following query string:
+which meant that `temp[1]` would always be undefined. This means that I could pollute `temp[1]` with whatever I wanted as I had access to pollute the `Array` prototype! I decided to input the following query string:
 
 ```
 ?config[window-toolbar][constructor][prototype][1]=8080
@@ -309,7 +317,7 @@ and received this on the webpage:
 
 ![my img tag got filtered before being displayed](./assets/intigriti-0422-filtered-img-on-page.jpg)
 
-This was because there was a `sanitize` function that converted all instances of `<`, `>`, `%`, `&`, `$`, `\`, `script`, and spaces in the input into `_`.
+It seems my XSS payload got modified before being placed on the page. This was because there was a `sanitize` function that converted all instances of `<`, `>`, `%`, `&`, `$`, `\`, `script`, and spaces in the input into `_`.
 
 ```javascript
 function sanitize(data) {
@@ -475,14 +483,36 @@ function setAttr(vnode3, key, old, value, ns) {
 
 The `setAttrs` function loops through all keys in a object and calls the `setAttr` function on each of them to set them as attributes on the HTML tag passed in as a argument.
 
-I noticed that I was able to set attributes such as `id` or `class` just fine, but that I was unable to set `onfocus` for some reason. Stepping through the code in a debugger, I tried figuring out why the `onfocus` attribute was disappearing. Eventually I noticed this line of code:
+I noticed that I was able to set attributes such as `id` or `class` just fine, but that I was unable to set `onfocus` for some reason. Stepping through the code in a debugger, I tried figuring out why the `onfocus` attribute was disappearing. Eventually I noticed this line of code on the `setAttr`:
 
-```javascript
+```javascript{3}
 function setAttr(vnode3, key, old, value, ns) {
-  ...
+  if (key === "key" || key === "is" || value == null || isLifecycleMethod(key) || (old === value && !isFormAttribute(vnode3, key)) && typeof value !== "object") return
   if (key[0] === "o" && key[1] === "n") return updateEvent(vnode3, key, value)
-  ...
-
+  if (key.slice(0, 6) === "xlink:") vnode3.dom.setAttributeNS("http://www.w3.org/1999/xlink", key.slice(6), value)
+  else if (key === "style") updateStyle(vnode3.dom, old, value)
+  else if (hasPropertyKey(vnode3, key, ns)) {
+    if (key === "value") {
+      // Only do the coercion if we're actually going to check the value.
+      /* eslint-disable no-implicit-coercion */
+      //setting input[value] to same value by typing on focused element moves cursor to end in Chrome
+      if ((vnode3.tag === "input" || vnode3.tag === "textarea") && vnode3.dom.value === "" + value && vnode3.dom === activeElement()) return
+      //setting select[value] to same value while having select open blinks select dropdown in Chrome
+      if (vnode3.tag === "select" && old !== null && vnode3.dom.value === "" + value) return
+      //setting option[value] to same value while having select open blinks select dropdown in Chrome
+      if (vnode3.tag === "option" && old !== null && vnode3.dom.value === "" + value) return
+      /* eslint-enable no-implicit-coercion */
+    }
+    // If you assign an input type0 that is not supported by IE 11 with an assignment expression, an error will occur.
+    if (vnode3.tag === "input" && key === "type") vnode3.dom.setAttribute(key, value)
+    else vnode3.dom[key] = value
+  } else {
+    if (typeof value === "boolean") {
+      if (value) vnode3.dom.setAttribute(key, "")
+      else vnode3.dom.removeAttribute(key)
+    }
+    else vnode3.dom.setAttribute(key === "className" ? "class" : key, value)
+  }
 }
 ```
 
@@ -509,9 +539,17 @@ function updateEvent(vnode3, key, value) {
 
 Stepping through a debugger, I found out that when a attribute started with `on`, the `updateEvent` function would always end up on this line of code:
 
-```javascript
+```javascript{11}
 function updateEvent(vnode3, key, value) {
-  ...
+  if (vnode3.events != null) {
+    if (vnode3.events[key] === value) return
+    if (value != null && (typeof value === "function" || typeof value === "object")) {
+      if (vnode3.events[key] == null) vnode3.dom.addEventListener(key.slice(2), vnode3.events, false)
+      vnode3.events[key] = value
+    } else {
+      if (vnode3.events[key] != null) vnode3.dom.removeEventListener(key.slice(2), vnode3.events, false)
+      vnode3.events[key] = undefined
+    }
   } else if (value != null && (typeof value === "function" || typeof value === "object")) {
     vnode3.events = new EventDict()
     vnode3.dom.addEventListener(key.slice(2), vnode3.events, false)
@@ -562,13 +600,36 @@ m.render(
 
 This resulted in the alert showing up even though the value passed in was not a function.
 
-I stepped through the `setAttr` function to see why this was the case and saw this line being used to add the `onfocus` attribute to the `div` instead:
+I stepped through the `setAttr` function to see why this was the case and saw this line being used to add the `ONFOCUS` attribute to the `div` instead:
 
-```javascript
+```javascript{26}
 function setAttr(vnode3, key, old, value, ns) {
-  ...
+  if (key === "key" || key === "is" || value == null || isLifecycleMethod(key) || (old === value && !isFormAttribute(vnode3, key)) && typeof value !== "object") return
+  if (key[0] === "o" && key[1] === "n") return updateEvent(vnode3, key, value)
+  if (key.slice(0, 6) === "xlink:") vnode3.dom.setAttributeNS("http://www.w3.org/1999/xlink", key.slice(6), value)
+  else if (key === "style") updateStyle(vnode3.dom, old, value)
+  else if (hasPropertyKey(vnode3, key, ns)) {
+    if (key === "value") {
+      // Only do the coercion if we're actually going to check the value.
+      /* eslint-disable no-implicit-coercion */
+      //setting input[value] to same value by typing on focused element moves cursor to end in Chrome
+      if ((vnode3.tag === "input" || vnode3.tag === "textarea") && vnode3.dom.value === "" + value && vnode3.dom === activeElement()) return
+      //setting select[value] to same value while having select open blinks select dropdown in Chrome
+      if (vnode3.tag === "select" && old !== null && vnode3.dom.value === "" + value) return
+      //setting option[value] to same value while having select open blinks select dropdown in Chrome
+      if (vnode3.tag === "option" && old !== null && vnode3.dom.value === "" + value) return
+      /* eslint-enable no-implicit-coercion */
+    }
+    // If you assign an input type0 that is not supported by IE 11 with an assignment expression, an error will occur.
+    if (vnode3.tag === "input" && key === "type") vnode3.dom.setAttribute(key, value)
+    else vnode3.dom[key] = value
+  } else {
+    if (typeof value === "boolean") {
+      if (value) vnode3.dom.setAttribute(key, "")
+      else vnode3.dom.removeAttribute(key)
+    }
     else vnode3.dom.setAttribute(key === "className" ? "class" : key, value)
-  ...
+  }
 }
 ```
 
@@ -597,12 +658,27 @@ and it stopped working again >:(
 
 I decided to step through the `setAttr` once again to see what was going on. It turns out there was a function called `hasPropertyKey` being called in `setAttr`. When I set the attributes directly in a object passed into the `m.render` function, `hasPropertyKey` returned `false`, and went to the code path that used `setAttribute` to set attributes. However, after I polluted `Object.prototype` with my attributes, `hasPropertyKey` returned `true` for some reason and `setAttribute` was never called.
 
-```javascript
+```javascript{6,20}
 function setAttr(vnode3, key, old, value, ns) {
-  ...
-  else if (hasPropertyKey(vnode3, key, ns)) { // hasPropertyKey became true instead of false for some reason
-  ...
-    else vnode3.dom[key] = value // started setting properties directly instead of using setAttribute
+  if (key === "key" || key === "is" || value == null || isLifecycleMethod(key) || (old === value && !isFormAttribute(vnode3, key)) && typeof value !== "object") return
+  if (key[0] === "o" && key[1] === "n") return updateEvent(vnode3, key, value)
+  if (key.slice(0, 6) === "xlink:") vnode3.dom.setAttributeNS("http://www.w3.org/1999/xlink", key.slice(6), value)
+  else if (key === "style") updateStyle(vnode3.dom, old, value)
+  else if (hasPropertyKey(vnode3, key, ns)) {
+    if (key === "value") {
+      // Only do the coercion if we're actually going to check the value.
+      /* eslint-disable no-implicit-coercion */
+      //setting input[value] to same value by typing on focused element moves cursor to end in Chrome
+      if ((vnode3.tag === "input" || vnode3.tag === "textarea") && vnode3.dom.value === "" + value && vnode3.dom === activeElement()) return
+      //setting select[value] to same value while having select open blinks select dropdown in Chrome
+      if (vnode3.tag === "select" && old !== null && vnode3.dom.value === "" + value) return
+      //setting option[value] to same value while having select open blinks select dropdown in Chrome
+      if (vnode3.tag === "option" && old !== null && vnode3.dom.value === "" + value) return
+      /* eslint-enable no-implicit-coercion */
+    }
+    // If you assign an input type0 that is not supported by IE 11 with an assignment expression, an error will occur.
+    if (vnode3.tag === "input" && key === "type") vnode3.dom.setAttribute(key, value)
+    else vnode3.dom[key] = value
   } else {
     if (typeof value === "boolean") {
       if (value) vnode3.dom.setAttribute(key, "")
