@@ -1,5 +1,5 @@
 ---
-title: "Intigriti 1121 XSS Writeup"
+title: "Strengthening CSP to achieve XSS (Intigriti 1121 XSS Writeup)"
 date: "2026-03-22"
 category: security
 description: "Writeup for the Intigriti 1121 XSS challenge"
