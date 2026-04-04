@@ -36,9 +36,9 @@ export default defineConfig({
     //   provider: 'local'
     // },
     //outline:[2,3],
-    outline: {
-      label: '文章摘要'
-    },
+    // outline: {
+    //   label: '文章摘要'
+    // },
     socialLinks: [
       { icon: 'rss', link: '/feed.xml' },
       { icon: 'github', link: 'https://github.com/george11119' }
