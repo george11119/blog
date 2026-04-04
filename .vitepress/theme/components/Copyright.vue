@@ -1,6 +1,7 @@
 <template>
   <div class="site-footer">
-    Copyright © {{ new Date(Date.now()).getFullYear() }} | Made with
+    Copyright © {{ new Date(Date.now()).getFullYear() }}<br />
+    Made with
     <a class="vitepress" target="_blank" href="//vitepress.vuejs.org/">VitePress - 1.6.4</a> and
     <a class="vitepress" target="_blank" href="//github.com/airene/vitepress-blog-pure">Vitepress-blog</a>
   </div>
