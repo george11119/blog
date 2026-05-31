@@ -110,8 +110,6 @@ would lead to the following HTML being appended to the page:
 <iframe src="&lt;img src=" https:="" www.youtube.com="" embed="" =''aaaa="you" foo="bar" fix=".png&quot;">"></iframe>
 ```
 
-(ignore the bad word I was tilted)
-
 I noticed that the `foo=bar` that I added to the input got transformed into an attribute on the iframe. This means I now could insert an iframe onto the page with any attributes I wanted. I couldn't use event handler attributes such as `onfocus` or `onload` due to the sanitization filter blacklisting the `on` keyword, but I noticed that I could just use the iframe's `srcdoc` attribute to insert a script tag instead.
 
 With the following payload:
