@@ -5,15 +5,16 @@ category: ML/AI
 description: "Lots of linear algebra"
 ---
 
+<figure>
+  <img src="./assets/linear-alg-notes.jpg" alt="my notes">
+  <figcaption>Linear algebra notes</figcaption>
+</figure>
+
 Hello there. It has been a week since I suddenly had a impulse urge to start learning about ML/AI. I feel pretty good about my progress currently with this topic. This is honestly way more fun than doing CTF challenges and cybersecurity stuff in my opinion. 
 
 # Current Progress
 
-For the past week, I have just been reading chapter 2 of [Mathematics for Machine Learning](https://mml-book.github.io/), which is pretty much entirely dedicated to linear algebra. As of yesterday, I have finished reading the entirety of chapter 2, which to be honest, has been insanely hard to understand. My approach to reading this chapter has been to take notes on my ipad about the book contents and to do any example problems that are outlined in the chapter by myself without referencing the book in order to get a feel on how to do the problems. With this approach, reading every page has taken me an average of 20-30 minutes to read, and my head also feels like it's been ran over by a truck everytime I try to understand a page. Here's a picture of what my notes look like:
-
-![my notes](./assets/linear-alg-notes.jpg)
-
-However, I have found other resources online that teach the same material outlined in this current chapter, such as:
+For the past week, I have just been reading chapter 2 of [Mathematics for Machine Learning](https://mml-book.github.io/), which is pretty much entirely dedicated to linear algebra. As of yesterday, I have finished reading the entirety of chapter 2, which to be honest, has been insanely hard to understand. My approach to reading this chapter has been to take notes on my ipad about the book contents and to do any example problems that are outlined in the chapter by myself without referencing the book in order to get a feel on how to do the problems. With this approach, reading every page has taken me an average of 20-30 minutes to read, and my head also feels like it's been ran over by a truck everytime I try to understand a page. However, I have found other resources online that teach the same material outlined in this current chapter, such as:
 
 - [This google doc with supplementary materials to read with the book](https://docs.google.com/document/d/1qyBUjkeYUfF4LhJux0dwJItQxDxmoxDRoXPVeQGUAU0/edit?usp=sharing)
 - [Paul's math notes on linear algebra](http://www.cs.cornell.edu/courses/cs485/2006sp/LinAlg_Complete.pdf)
