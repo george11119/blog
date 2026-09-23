@@ -2,7 +2,7 @@
 title: Getting Good at Machine Learning - Week 3
 date: "2026-09-22"
 category: ML/AI
-description: ""
+description: "no progress made"
 ---
 
 Another week, another blog post. Good news! My progress didn't regress again! Bad news, I made no real learning progress.
