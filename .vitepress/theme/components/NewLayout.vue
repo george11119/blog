@@ -10,6 +10,9 @@
         >
       </div>
     </template>
+    <template #doc-after>
+      <PostNav />
+    </template>
     <template #doc-bottom>
       <Comment />
     </template>
@@ -19,6 +22,7 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 import Copyright from './Copyright.vue'
+import PostNav from './PostNav.vue'
 import { withBase } from 'vitepress'
 import { convertDateV2 } from '../date'
 const { Layout } = DefaultTheme
