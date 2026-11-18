@@ -1,0 +1,15 @@
+---
+title: Getting Good at Machine Learning - Week 11
+date: "2026-11-17"
+category: ML/AI
+description: "Doing statistics and taking a break"
+---
+
+So I finished doing the practice problems and watching course lectures from the [MIT course](https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/) that I thought were relevant to do, and started figuring out how to learn statistics. I tried reading chapter 6 of the [MML book](mml-book.github.io), but it was too hard to read so I decided to find a online course on statistics instead. I found a course called [stat 110](https://stat110.hsites.harvard.edu/) which is taught by Joe Blitzstein at Harvard, and decided to go with it due to the amount of material the course provides to get good at statistics including a huge amount of practice problems, a textbook, and recorded lectures that closely mirror the textbook contents.
+
+I spent the start of this week reading chapter 1, which is a intro to probability and counting. So far I have just been trying to wrap my head around calculating probabilities of events happening using counting rules, such as calculating dice roll probabilities or getting a specific poker hand, and I am just having a hard time comphrehending how I'm supposed to solve these questions. For example, I did a question on comparing the probability of getting a 21 and 22 after rolling 4 dice, and I thought they had the same probability of happening. I then decided to list out every possible combination of dice that would give you 21 and 22, and found out that there were more dice rolls that would result in 21 than 22, and got bamboozled trying to understand why this was the case. This probably took me a good hour to understand properly, and instances like this just kept happening. Statistics is hard. I guess I just gotta keep doing these problems and reading the textbook until I get good at statistics.
+
+I think I spent around 3 days doing calculus and statistics at the start of the week. For the rest of the week, I was feeling really lazy and decided to do nothing and watch youtube all day. I mostly watched alot of league of legends this week, including the 2026 league of legends world finals. I also watched alot of other random stuff that I don't remember. I think this is the first voluntary break that I've had since I started getting obsessed with the idea of getting good at machine learning. However, I am now bored of watching youtube all day. I am probably gonna end the break and go back to studying statistics tomorrow. I think statistics is the last major math subject I gotta learn to understand machine learning concepts and algorithms so the sooner I finish this the sooner I can go do machine learning stuff.
+
+This week was not very productive due to me taking a break to watch league all day. I have no idea how productive next week will be. I hope to at least get in good progress in the stats course that I am doing right now. I do hope that happens and I don't end up getting stuck for half the week figuring out some random statistics concept :/ See you next week.
+
